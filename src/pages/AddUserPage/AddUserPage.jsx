@@ -1,12 +1,12 @@
 import axios from "axios";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const AddUserPage = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [positionId, setPositionId] = useState("");
+  const [positionName, setPositionName] = useState("");
   const [photo, setPhoto] = useState("");
   const [error, setError] = useState("");
 
@@ -15,7 +15,7 @@ const AddUserPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!name || !email || !phone || !positionId || !photo) {
+    if (!name || !email || !phone || !positionName || !photo) {
       setError("Please fill in all fields.");
       return;
     }
@@ -27,8 +27,8 @@ const AddUserPage = () => {
           name,
           email,
           phone,
-          positionId,
-          photo
+          positionName,
+          photo,
         },
         {
           headers: {
@@ -37,17 +37,20 @@ const AddUserPage = () => {
         }
       );
 
-      console.log("User added successfully:", response.data);
       setName("");
       setEmail("");
       setPhone("");
-      setPositionId("");
+      setPositionName("");
       setPhoto("");
       setError("");
-      navigate('/users');
+      navigate("/users");
     } catch (error) {
-      console.error("There was an error!", error);
-      setError("An error occurred while adding the user.");
+      if (error.response) {
+        setError(error.response.data.message);
+      } else {
+        setError("An unexpected error occurred");
+      }
+      console.error("Error adding user:", error);
     }
   };
 
@@ -68,7 +71,7 @@ const AddUserPage = () => {
             required
           />
         </div>
-        
+
         <div className="mb-4">
           <label className="block text-gray-700">Email:</label>
           <input
@@ -95,8 +98,8 @@ const AddUserPage = () => {
           <label className="block text-gray-700">Position ID:</label>
           <input
             type="text"
-            value={positionId}
-            onChange={(e) => setPositionId(e.target.value)}
+            value={positionName}
+            onChange={(e) => setPositionName(e.target.value)}
             className="w-full p-2 border border-gray-300 rounded"
             required
           />
