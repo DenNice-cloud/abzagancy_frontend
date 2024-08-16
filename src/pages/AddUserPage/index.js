@@ -1,1 +1,1 @@
-export * from './AddUserPage';
+export { default } from "./AddUserPage";

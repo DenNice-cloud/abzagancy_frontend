@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { fetchPositions } from "../../utils/fetchPositions";
+import { fetchPositions } from "utils/fetchPositions";
 
 const CurrentUser = () => {
   const { id } = useParams();

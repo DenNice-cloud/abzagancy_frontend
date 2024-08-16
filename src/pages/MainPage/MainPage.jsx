@@ -1,8 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import Pagination from "../../utils/Pagination";
-import { fetchPositions } from "../../utils/fetchPositions";
+import Pagination from "utils/Pagination";
+import { fetchPositions } from "utils/fetchPositions";
 
 const MainPage = () => {
   const [userData, setUserData] = useState([]);
@@ -13,7 +13,7 @@ const MainPage = () => {
     prev_url: null,
   });
   const [positions, setPositions] = useState({});
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -42,21 +42,19 @@ const MainPage = () => {
       setPaginationLinks(links);
     } catch (error) {
       console.error("Error fetching users:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    setLoading(true);
-
     try {
       fetchPositions(setPositions);
       getUsers(currentPage, currentCount);
     } catch (error) {
       console.error(error);
     } finally {
-      setLoading(false);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, currentCount]);
 
   const handleClickCount = (event) => {
@@ -108,7 +106,8 @@ const MainPage = () => {
                       <strong>Telephone:</strong> {data.phone}
                     </div>
                     <div className="mb-2 text-gray-700">
-                      <strong>Position name:</strong> {positions[data.positionId]}
+                      <strong>Position name:</strong>{" "}
+                      {positions[data.positionId]}
                     </div>
                     <img
                       src={data.photo}
@@ -128,7 +127,7 @@ const MainPage = () => {
               Show more +6
             </button>
           </div>
-          
+
           <div className="flex">
             <div className="fixed bottom-0 p-4 bg-white w-screen border z-10">
               <div className="flex justify-center items-center">

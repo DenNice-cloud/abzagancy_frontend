@@ -1,5 +1,4 @@
 const Pagination = ({ paginationLinks, currentPage, setCurrentPage }) => {
-
   const handlePageChange = (value) => {
     setCurrentPage(value);
   };
