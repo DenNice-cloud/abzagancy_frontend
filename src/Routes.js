@@ -6,6 +6,9 @@ import AddUserPage from "pages/AddUserPage";
 import CurrentUser from "pages/CurrentUser";
 
 const AppRoutes = () => {
+  console.log('====================================');
+  console.log('test');
+  console.log('====================================');
   return (
     <Router>
       <Routes>
