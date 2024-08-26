@@ -1,8 +1,9 @@
 import axios from "axios";
+import Loader from "components/Loader";
+import UserShortInfo from "components/UserShortInfo";
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Pagination from "utils/Pagination";
-import { fetchPositions } from "utils/fetchPositions";
 
 const MainPage = () => {
   const [userData, setUserData] = useState([]);
@@ -12,54 +13,73 @@ const MainPage = () => {
     next_url: null,
     prev_url: null,
   });
-  const [positions, setPositions] = useState({});
-  const [loading, setLoading] = useState(true);
-
+  const [isLoading, setIsLoading] = useState(true);
+  const addMoreUsers = 6;
   const navigate = useNavigate();
   const location = useLocation();
 
-  const getUsers = async (page, count) => {
+  const getUsersWithPositions = async (
+    page,
+    count,
+    setUserData,
+    setPaginationLinks,
+  ) => {
     const token = localStorage.getItem("authToken");
+    const apiPositionUrl =
+      "https://frontend-test-assignment-api.abz.agency/api/v1/positions";
 
     try {
-      const response = await axios.get(
-        `http://localhost:3000/users?page=${page}&count=${count}`,
+      const positionsResponse = await axios.get(apiPositionUrl);
+      const { positions } = positionsResponse.data;
+
+      const positionsMap = positions.reduce((acc, position) => {
+        acc[position.id] = position.name;
+        return acc;
+      }, {});
+
+      const usersResponse = await axios.get(
+        `https://abzagancybackend-production.up.railway.app/users?page=${page}&count=${count}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
-      const { data: users, links } = response.data;
 
-      setUserData(users);
+      const { data: users, links } = usersResponse.data;
+
+      const updatedUsers = users.map((user) => ({
+        ...user,
+        position: positionsMap[user.positionId],
+      }));
+
+      setUserData(updatedUsers);
+      setPaginationLinks(links);
 
       navigate({
         pathname: location.pathname,
         search: `?page=${page}&count=${count}`,
       });
-
-      setPaginationLinks(links);
     } catch (error) {
-      console.error("Error fetching users:", error);
+      console.error("Error fetching users or positions:", error);
     } finally {
-      setLoading(false);
     }
   };
 
   useEffect(() => {
-    try {
-      fetchPositions(setPositions);
-      getUsers(currentPage, currentCount);
-    } catch (error) {
-      console.error(error);
-    } finally {
-    }
+    setIsLoading(true);
+    getUsersWithPositions(
+      currentPage,
+      currentCount,
+      setUserData,
+      setPaginationLinks,
+    );
+    setIsLoading(false);
   }, [currentPage, currentCount]);
 
   const handleClickCount = (event) => {
     event.preventDefault();
-    let newCount = currentCount + 6;
+    let newCount = currentCount + addMoreUsers;
 
     if (currentCount > userData.length) {
       newCount = userData.length;
@@ -76,45 +96,18 @@ const MainPage = () => {
 
   return (
     <div className="overflow-hidden bg-gray-100">
-      {loading ? (
-        <div className="flex items-center justify-center min-h-screen">
-          <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
-            <div>Loading...</div>
-          </div>
-        </div>
+      {isLoading ? (
+        <Loader />
       ) : (
         <>
           <div className="flex flex-col p-4 items-center h-[805px] overflow-y-auto">
             <div className="w-full max-w-screen-lg pb-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {userData.map((data) => (
-                  <Link
+                  <UserShortInfo
                     key={data.id}
-                    to={`http://localhost:3001/users/${data.id}`}
-                    className="rounded p-4 border shadow-md bg-white"
-                  >
-                    <div className="mb-2 text-gray-700">
-                      <strong>Id:</strong> {data.id}
-                    </div>
-                    <div className="mb-2 text-gray-700 break-words">
-                      <strong>E-mail:</strong> {data.email}
-                    </div>
-                    <div className="mb-2 text-gray-700">
-                      <strong>User name:</strong> {data.name}
-                    </div>
-                    <div className="mb-2 text-gray-700">
-                      <strong>Telephone:</strong> {data.phone}
-                    </div>
-                    <div className="mb-2 text-gray-700">
-                      <strong>Position name:</strong>{" "}
-                      {positions[data.positionId]}
-                    </div>
-                    <img
-                      src={data.photo}
-                      alt={data.name}
-                      className="w-[70px] h-[70px] rounded-md mt-4 mx-auto"
-                    />
-                  </Link>
+                    data={data}
+                  />
                 ))}
               </div>
             </div>
@@ -139,7 +132,7 @@ const MainPage = () => {
 
                 <div className="absolute right-4 flex justify-center items-center p-4">
                   <Link
-                    to={"/users/adduser"}
+                    to={"/users/addUser"}
                     className="flex rounded border p-2 text-white bg-blue-500 
                   hover:bg-blue-800"
                   >

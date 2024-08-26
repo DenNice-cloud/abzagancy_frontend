@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { fetchPositions } from "utils/fetchPositions";
 
 const CurrentUser = () => {
   const { id } = useParams();
@@ -9,13 +8,12 @@ const CurrentUser = () => {
   const [userData, setUserData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [positions, setPositions] = useState({});
 
   const fetchUserData = async () => {
     setLoading(true);
 
     try {
-      const response = await axios.get(`http://localhost:3000/users/${id}`);
+      const response = await axios.get(`https://abzagancybackend-production.up.railway.app/users/${id}`);
 
       setUserData(response.data);
     } catch (error) {
@@ -28,8 +26,7 @@ const CurrentUser = () => {
 
   useEffect(() => {
     fetchUserData();
-    fetchPositions(setPositions);
-  }, [id]);
+  }, []);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -61,7 +58,7 @@ const CurrentUser = () => {
                 <strong>Telephone:</strong> {userData.phone}
               </div>
               <div className="mb-2 text-gray-700">
-                <strong>Position name:</strong> {positions[userData.positionId]}
+                <strong>Position name:</strong> {userData.position}
               </div>
               <img
                 src={userData.photo}

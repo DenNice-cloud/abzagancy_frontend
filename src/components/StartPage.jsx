@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const StartPage = () => {
   const handleLogin = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/");
+      const response = await axios.get("https://abzagancybackend-production.up.railway.app/");
       const token = await response.data.accessToken;
       localStorage.setItem("authToken", token);
     } catch (error) {

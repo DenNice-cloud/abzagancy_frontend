@@ -18,7 +18,7 @@ const AppRoutes = () => {
           element={<MainPage />}
         />
         <Route
-          path="/users/adduser"
+          path="/users/addUser"
           element={<AddUserPage />}
         />
         <Route

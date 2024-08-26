@@ -29,7 +29,7 @@ const AddUserPage = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/users/adduser",
+        "https://abzagancybackend-production.up.railway.app/users/addUser",
         {
           name,
           email,
