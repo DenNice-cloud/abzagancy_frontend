@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { HashRouter as Router, Route, Routes } from "react-router-dom";
 import MainPage from "pages/MainPage";
 import StartPage from "components/StartPage";
 import AddUserPage from "pages/AddUserPage";
@@ -7,7 +7,7 @@ import CurrentUser from "pages/CurrentUser";
 
 const AppRoutes = () => {
   console.log('====================================');
-  console.log('test');
+  console.log('test2');
   console.log('====================================');
   return (
     <Router>
