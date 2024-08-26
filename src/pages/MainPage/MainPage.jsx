@@ -62,19 +62,23 @@ const MainPage = () => {
       });
     } catch (error) {
       console.error("Error fetching users or positions:", error);
-    } finally {
     }
   };
 
   useEffect(() => {
     setIsLoading(true);
-    getUsersWithPositions(
-      currentPage,
-      currentCount,
-      setUserData,
-      setPaginationLinks
-    );
-    setIsLoading(false);
+    try {
+      getUsersWithPositions(
+        currentPage,
+        currentCount,
+        setUserData,
+        setPaginationLinks
+      );
+    } catch (error) {
+      console.error("Error get users", error);
+    } finally {
+      setIsLoading(false);
+    }
   }, [currentPage, currentCount]);
 
   const handleClickCount = (event) => {
