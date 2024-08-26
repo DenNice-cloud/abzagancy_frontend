@@ -1,9 +1,9 @@
 # Abzagancy Project
 
 ## Technologies Used
-React
-Tailwind CSS
-Axios
+ - React
+ - Tailwind CSS
+ - Axios
 
 ## Frontend
 ### Project Description
