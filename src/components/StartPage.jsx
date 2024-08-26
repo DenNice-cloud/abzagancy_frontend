@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 const StartPage = () => {
@@ -11,13 +12,15 @@ const StartPage = () => {
       console.error("Error fetching token:", error);
     }
   };
+  useEffect(() => {
+    handleLogin();
+  }, []);
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <Link
         className="flex rounded p-3 border bg-white"
         to={"/users?page=1&count=6"}
-        onClick={handleLogin}
       >
         Let's go to Main page
       </Link>
