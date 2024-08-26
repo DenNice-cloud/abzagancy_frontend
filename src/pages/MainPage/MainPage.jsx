@@ -22,7 +22,7 @@ const MainPage = () => {
     page,
     count,
     setUserData,
-    setPaginationLinks,
+    setPaginationLinks
   ) => {
     const token = localStorage.getItem("authToken");
     const apiPositionUrl =
@@ -72,7 +72,7 @@ const MainPage = () => {
       currentPage,
       currentCount,
       setUserData,
-      setPaginationLinks,
+      setPaginationLinks
     );
     setIsLoading(false);
   }, [currentPage, currentCount]);
@@ -117,7 +117,7 @@ const MainPage = () => {
               hover:bg-yellow-400"
               onClick={handleClickCount}
             >
-              Show more +6
+              {`Show more +${addMoreUsers}`}
             </button>
           </div>
 
