@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/abzagancy_frontend/static/css/main.ffd0f268.css",
-    "main.js": "/abzagancy_frontend/static/js/main.9b09bae6.js",
+    "main.js": "/abzagancy_frontend/static/js/main.867390c3.js",
     "index.html": "/abzagancy_frontend/index.html",
     "main.ffd0f268.css.map": "/abzagancy_frontend/static/css/main.ffd0f268.css.map",
-    "main.9b09bae6.js.map": "/abzagancy_frontend/static/js/main.9b09bae6.js.map"
+    "main.867390c3.js.map": "/abzagancy_frontend/static/js/main.867390c3.js.map"
   },
   "entrypoints": [
     "static/css/main.ffd0f268.css",
-    "static/js/main.9b09bae6.js"
+    "static/js/main.867390c3.js"
   ]
 }
