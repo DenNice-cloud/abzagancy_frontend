@@ -2,7 +2,7 @@
   "name": "abzagancy_frontend",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://dennice-cloud.github.io/abzagancy_frontend/",
+  "homepage": "https://dennice-cloud.github.io/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
